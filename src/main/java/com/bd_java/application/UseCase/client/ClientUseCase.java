@@ -1,14 +1,14 @@
-package com.bd_java.application.UseCase;
+package com.bd_java.application.UseCase.client;
 
 import java.util.List;
 
 import com.bd_java.domain.entity.Client;
-import com.bd_java.domain.repository.ClientRespository;
+import com.bd_java.domain.repository.ClientRepository;
 
 public class ClientUseCase {
-    private final ClientRespository repository;
+    private final ClientRepository repository;
 
-    public ClientUseCase(ClientRespository repository) {
+    public ClientUseCase(ClientRepository repository) {
         this.repository = repository;
     }
 

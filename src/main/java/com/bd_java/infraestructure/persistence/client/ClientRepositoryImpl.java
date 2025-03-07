@@ -1,25 +1,28 @@
 package com.bd_java.infraestructure.persistence.client;
 
-import java.sql.Statement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.bd_java.domain.entity.Client;
+import com.bd_java.domain.repository.ClientRepository;
 import com.bd_java.infraestructure.database.ConnectionDb;
 
-public class ClientRepositorylmpl implements ClientRespository{
+public class ClientRepositoryImpl implements ClientRepository {
     private final ConnectionDb connection;
-
-    public ClientRepositorylmpl(ConnectionDb connection) {
+    
+    public ClientRepositoryImpl(ConnectionDb connection) {
         this.connection = connection;
     }
     @Override
     public void guardar(Client cliente) {
-        String sql = "INSERT INTO clientes (id, nombre, email) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO client (id, name, email) VALUES (?, ?, ?)";
         try (Connection conexion = connection.getConexion();
-             PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, cliente.getId());
             stmt.setString(2, cliente.getName());
             stmt.setString(3, cliente.getEmail());
@@ -31,9 +34,9 @@ public class ClientRepositorylmpl implements ClientRespository{
 
     @Override
     public Client buscarPorId(int id) {
-        String sql = "SELECT * FROM clientes WHERE id = ?";
+        String sql = "SELECT * FROM client WHERE id = ?";
         try (Connection conexion = connection.getConexion();
-             PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -47,25 +50,25 @@ public class ClientRepositorylmpl implements ClientRespository{
 
     @Override
     public List<Client> listarTodos() {
-        List<Client> clientes = new ArrayList<>();
-        String sql = "SELECT * FROM clientes";
+        List<Client> client = new ArrayList<>();
+        String sql = "SELECT * FROM client";
         try (Connection conexion = connection.getConexion();
-             Statement stmt = conexion.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+            Statement stmt = conexion.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                clientes.add(new Client(rs.getInt("id"), rs.getString("nombre"), rs.getString("email")));
+                client.add(new Client(rs.getInt("id"), rs.getString("name"), rs.getString("email")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return clientes;
+        return client;
     }
 
     @Override
     public void actualizar(Client cliente) {
-        String sql = "UPDATE clientes SET nombre = ?, email = ? WHERE id = ?";
+        String sql = "UPDATE client SET name = ?, email = ? WHERE id = ?";
         try (Connection conexion = connection.getConexion();
-             PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setString(1, cliente.getName());
             stmt.setString(2, cliente.getEmail());
             stmt.setInt(3, cliente.getId());
@@ -77,9 +80,9 @@ public class ClientRepositorylmpl implements ClientRespository{
 
     @Override
     public void eliminar(int id) {
-        String sql = "DELETE FROM clientes WHERE id = ?";
+        String sql = "DELETE FROM client WHERE id = ?";
         try (Connection conexion = connection.getConexion();
-             PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {

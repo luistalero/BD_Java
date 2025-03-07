@@ -4,10 +4,11 @@ import java.util.List;
 
 import com.bd_java.domain.entity.Client;
 
-public class ClientRespository {
+public interface ClientRepository {
     void guardar(Client cliente);
     Client buscarPorId(int id);
     List<Client> listarTodos();
     void actualizar(Client cliente);
     void eliminar(int id);
 }
+
