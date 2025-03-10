@@ -21,7 +21,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     public void guardar(Product product) {
         String sql = "INSERT INTO product (id, name, stock) VALUES (?, ?, ?)";
         try (Connection conexion = connection.getConexion();
-             PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setString(1, product.getId());
             stmt.setString(2, product.getName());
             stmt.setInt(3, product.getStock());
@@ -33,7 +33,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public Product buscarPorId(int id) {
-        String sql = "SELECT * FROM client WHERE id = ?";
+        String sql = "SELECT * FROM product WHERE id = ?";
         try (Connection conexion = connection.getConexion();
             PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -50,7 +50,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public List<Product> listarTodos() {
         List<Product> product = new ArrayList<>();
-        String sql = "SELECT * FROM client";
+        String sql = "SELECT * FROM product";
         try (Connection conexion = connection.getConexion();
             Statement stmt = conexion.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
@@ -65,7 +65,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public void actualizar(Product product) {
-        String sql = "UPDATE client SET name = ?, stock = ? WHERE id = ?";
+        String sql = "UPDATE product SET name = ?, stock = ? WHERE id = ?";
         try (Connection conexion = connection.getConexion();
             PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setString(1, product.getName());
@@ -79,7 +79,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public void eliminar(int id) {
-        String sql = "DELETE FROM client WHERE id = ?";
+        String sql = "DELETE FROM product WHERE id = ?";
         try (Connection conexion = connection.getConexion();
             PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, id);
