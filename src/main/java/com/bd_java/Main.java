@@ -3,15 +3,9 @@ package com.bd_java;
 import java.sql.Connection;
 import java.util.Scanner;
 
-import com.bd_java.application.UseCase.client.ClientUseCase;
-import com.bd_java.application.UseCase.product.ProductUseCase;
 import com.bd_java.application.ui.Gestionable;
 import com.bd_java.application.ui.MenuFactory;
-import com.bd_java.domain.repository.ClientRepository;
-import com.bd_java.domain.repository.ProductRepository;
 import com.bd_java.infraestructure.database.ConnMySql;
-import com.bd_java.infraestructure.persistence.client.ClientRepositoryImpl;
-import com.bd_java.infraestructure.persistence.product.ProductRepositoryImpl;
 
 
 public class Main {
@@ -31,36 +25,29 @@ public class Main {
             Connection conexion = conexionDB.getConexion();
             if (conexion != null) {
                 System.out.println(entrada);
+
+                System.out.println("Cargando Menú Principal...");                 
+                Thread.sleep(5000); // Esperar 5 segundos
+                limpiarConsola();  
             }
         } catch (Exception e) {
             System.err.println(salida);
             return;
         }
-        
-        
-            
-        //     ProductRepository repository = new ProductRepositoryImpl(conexionDB);
-        //     ProductUseCase productoCasoUso = new ProductUseCase(repository);
-        //     try (Scanner cs = new Scanner(System.in)) {
-        //         System.out.print("Ingrese ID del Producto: ");
-        //         String di = cs.nextLine();
-        //         System.out.print("Ingrese Nombre: ");
-        //         String name = cs.nextLine();
-        //         System.out.print("Ingrese Stock: ");
-        //         int stock = cs.nextInt();
-        //         productoCasoUso.registrarproducto(di, name, stock);
-        //         System.out.println("✅ Producto registrado exitosamente.");
-        
-        //     }
-        // }
         Scanner scanner = new Scanner(System.in);
         int option;
         
         do {
-            System.out.println("===== Menú Principal =====");
-            System.out.println("1. Gestionar Clientes");
-            System.out.println("2. Gestionar Productos");
-            System.out.println("3. Salir");
+            String men = """
+            ====================================
+            |          MENU PRINCIPAL          |
+            ====================================
+            |    1. Gestionar Clientes         |
+            |    2. Gestionar Productos        |
+            |    3. Salir                      |
+            ====================================
+            """;
+            System.out.println(men);
             System.out.print("Seleccione una opción: ");
             option = scanner.nextInt();
             scanner.nextLine(); // Limpiar buffer
@@ -75,5 +62,23 @@ public class Main {
         
         scanner.close();
         System.out.println("Saliendo...");
+        
+    }
+
+    private static void limpiarConsola() {
+        try {
+            // Intenta limpiar la consola en sistemas Windows
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (Exception e) {
+            try {
+                // Intenta limpiar la consola en sistemas Unix/Linux/Mac
+                new ProcessBuilder("clear").inheritIO().start().waitFor();
+            } catch (Exception ex) {
+                // Si no se puede limpiar la consola, simplemente imprime varias líneas en blanco
+                for (int i = 0; i < 50; i++) {
+                    System.out.println();
+                }
+            }
+        }
     }
 }

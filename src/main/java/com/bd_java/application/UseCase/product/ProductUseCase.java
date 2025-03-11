@@ -30,7 +30,7 @@ public class ProductUseCase {
         repository.actualizar(producto);
     }
 
-    public void eliminarproducto(int id) {
+    public void eliminarproducto(String id) {
         repository.eliminar(id);
     }
 }

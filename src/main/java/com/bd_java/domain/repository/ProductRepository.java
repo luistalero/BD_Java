@@ -9,5 +9,5 @@ public interface ProductRepository {
     Product buscarPorId(int id);
     List<Product> listarTodos();
     void actualizar(Product product);
-    void eliminar(int id);
+    void eliminar(String id);
 }

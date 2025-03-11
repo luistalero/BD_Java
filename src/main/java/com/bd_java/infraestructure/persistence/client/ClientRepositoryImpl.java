@@ -20,7 +20,7 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
     @Override
     public void guardar(Client cliente) {
-        String sql = "INSERT INTO client (id, name, email) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO client (id, nombre, email) VALUES (?, ?, ?)";
         try (Connection conexion = connection.getConexion();
             PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, cliente.getId());
@@ -40,7 +40,7 @@ public class ClientRepositoryImpl implements ClientRepository {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return new Client(rs.getInt("id"), rs.getString("name"), rs.getString("email"));
+                return new Client(rs.getInt("id"), rs.getString("nombre"), rs.getString("email"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -56,7 +56,7 @@ public class ClientRepositoryImpl implements ClientRepository {
             Statement stmt = conexion.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                client.add(new Client(rs.getInt("id"), rs.getString("name"), rs.getString("email")));
+                client.add(new Client(rs.getInt("id"), rs.getString("nombre"), rs.getString("email")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -66,7 +66,7 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     @Override
     public void actualizar(Client cliente) {
-        String sql = "UPDATE client SET name = ?, email = ? WHERE id = ?";
+        String sql = "UPDATE client SET nombre = ?, email = ? WHERE id = ?";
         try (Connection conexion = connection.getConexion();
             PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setString(1, cliente.getName());
