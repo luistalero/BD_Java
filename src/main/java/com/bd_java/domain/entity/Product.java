@@ -28,4 +28,8 @@ public class Product {
         this.stock = stock;
     }
     
+    @Override
+    public String toString() {
+        return String.format("| %-4d | %-20s | %-30s |", id, name, stock);
+    }
 }

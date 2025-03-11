@@ -27,4 +27,9 @@ public class Client {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Override
+    public String toString() {
+        return String.format("| %-4d | %-20s | %-30s |", id, name, email);
+    }
 }

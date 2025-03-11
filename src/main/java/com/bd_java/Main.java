@@ -9,7 +9,7 @@ import com.bd_java.infraestructure.database.ConnMySql;
 
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         String entrada = """
         =========================================================
         |   SE HA ESTABLECIDO LA CONEXION A LA BASE DE DATOS    |
@@ -27,14 +27,14 @@ public class Main {
                 System.out.println(entrada);
 
                 System.out.println("Cargando Menú Principal...");                 
-                Thread.sleep(5000); // Esperar 5 segundos
+                Thread.sleep(3000); // Esperar 5 segundos
                 limpiarConsola();  
             }
         } catch (Exception e) {
             System.err.println(salida);
             return;
         }
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         int option;
         
         do {
@@ -49,18 +49,26 @@ public class Main {
             """;
             System.out.println(men);
             System.out.print("Seleccione una opción: ");
-            option = scanner.nextInt();
-            scanner.nextLine(); // Limpiar buffer
+            while (!sc.hasNextInt()) {
+                System.err.println("Error: El valor Ingresado no es valido.");
+                sc.next();
+                System.out.print("Seleccione una opción: ");
+            }
+            option = sc.nextInt();
+            sc.nextLine(); // Limpiar buffer
+            System.out.println("Cargando...");                 
+                Thread.sleep(2000); // Esperar 5 segundos
+                limpiarConsola(); 
 
             Gestionable menu = MenuFactory.getMenu(option);
             if (menu != null) {
-                menu.gestionar(scanner);
+                menu.gestionar(sc);
             } else if (option != 3) {
                 System.out.println("Opción no válida, intente de nuevo.");
             }
         } while (option != 3);
         
-        scanner.close();
+        sc.close();
         System.out.println("Saliendo...");
         
     }
