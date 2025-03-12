@@ -74,60 +74,112 @@ public class UiClient implements Gestionable {
     }
 
     private void agregarCliente(Scanner sc) {
-        int id;
-        System.out.print("Ingrese ID del Cliente: ");
-        while (!sc.hasNextInt()) {
-            System.err.println("Error: El valor Ingresado no es valido.");
-            sc.next();
+        while (true) {
+            System.out.println("Si desea cancelar esta operacion escriba la palabra 'Cancelar' ");
+            int id;
             System.out.print("Ingrese ID del Cliente: ");
-        }
-        id = sc.nextInt();
-        sc.nextLine(); // Consumir la nueva línea
+            while (!sc.hasNextInt()) {
+                System.err.println("Error: El valor Ingresado no es valido.");
+                sc.next();
+                System.out.print("Ingrese ID del Cliente: ");
+            }
+            id = sc.nextInt();
+            sc.nextLine(); // Consumir la nueva línea
+        
         String name;
-        System.out.print("Ingrese Nombre: ");
-        while (sc.hasNextInt() || sc.hasNextDouble()) {
-            System.err.println("Error: El valor ingresado no es valido.");
-            sc.next();
-            System.out.print("Ingrese el Nombre: ");
-        }
-        name = sc.nextLine();
-        String email = null;
-        System.out.print("Ingrese Email: ");
-        while (!Validacion.esEmailValido(email)) {
-            System.err.println("Error: Ingrese un Correo Valido.");
-            sc.next();
-            System.out.print("Ingrese Email: ");
-        }
-        email= sc.nextLine();
-        ClientUseCase.registrarCliente(id, name, email);
-        limpiarConsola();
-        System.out.println("✅ Cliente registrado exitosamente.");
+        while (true) {
+            System.out.print("Ingrese Nombre: ");
+            name = sc.nextLine().trim();
+            if (name.equalsIgnoreCase("cancelar")) return;
+            if (name.isEmpty() || !name.matches("^[a-zA-Z ]+$")) {
+            System.err.println("Error: El nombre no puede estar vacío y solo debe contener letras.");
+        } else {
+            break;
+        }      
     }
+        
+        String email;
+        while (true) {
+            System.out.print("Ingrese Email: ");
+            email = sc.nextLine();
+            if (email.equalsIgnoreCase("cancelar")) return;
+            if (!Validacion.esEmailValido(email)) {
+                System.err.println("Error: Ingrese un Correo Valido.");
+            } else {
+                break;
+            }
+        }
+            
+            ClientUseCase.registrarCliente(id, name, email);
+            System.out.println("✅ Cliente registrado exitosamente.");
+            break;
+        } 
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } 
+    limpiarConsola();
+    } 
 
     private void actualizarCliente(Scanner sc) {
-        System.out.print("Ingrese el ID del cliente a modificar: ");
-        
-        int id = sc.nextInt();
-        sc.nextLine();
-        System.out.print("Ingrese el nuevo nombre: ");
-        String name = sc.nextLine();
-        System.out.print("Ingrese el nuevo email: ");
-        String email = sc.nextLine();
+        while (true) {
+            System.out.println("Si desea cancelar esta operacion escriba la palabra 'Cancelar' ");
+            int id;
+            System.out.print("Ingrese el ID del cliente a modificar: ");
+            while (!sc.hasNextInt()) {
+                System.err.println("Error: El valor Ingresado no es valido.");
+                sc.next();
+                System.out.print("Ingrese el ID del cliente a modificar: ");
+            }
+            id = sc.nextInt();
+            sc.nextLine();
+
+        String name;
+        while (true) {
+            System.out.print("Ingrese el nuevo nombre: ");
+            name = sc.nextLine().trim();
+            if (name.equalsIgnoreCase("cancelar")) return;
+            if (name.isEmpty() || !name.matches("^[a-zA-Z ]+$")) {
+            System.err.println("Error: El nombre no puede estar vacío y solo debe contener letras.");
+        } else {
+            break;
+        }      
+    }
+        String email;
+        while (true) {
+            System.out.print("Ingrese Email: ");
+            email = sc.nextLine();
+            if (email.equalsIgnoreCase("cancelar")) return;
+            if (!Validacion.esEmailValido(email)) {
+                System.err.println("Error: Ingrese un Correo Valido.");
+        } else {
+            break;
+        }
+    }
+
         ClientUseCase.actualizarCliente(id, name, email);
         limpiarConsola();
         System.out.println("✅ Cliente modificado exitosamente.");
     }
-
+}
     private void eliminarCliente(Scanner sc) {
-        System.out.print("Ingrese el ID del cliente a eliminar: ");
-        
-        int id = sc.nextInt();
-        sc.nextLine();
+        while (true) {
+            System.out.println("Si desea cancelar esta operacion escriba la palabra 'Cancelar' ");
+            int id;
+            System.out.print("Ingrese el ID del cliente a eliminar: ");
+            while (!sc.hasNextInt()) {
+                System.err.println("Error: El valor Ingresado no es valido.");
+                sc.next();
+                System.out.print("Ingrese ID del Cliente: ");
+            }
+            id = sc.nextInt();
+            sc.nextLine();
         ClientUseCase.eliminarCliente(id);
         limpiarConsola();
         System.out.println("✅ Cliente eliminado exitosamente.");
     }
-
+}
     private void listarClientes() {
         List<Client> clientes = ClientUseCase.listarClientes();
         
@@ -168,3 +220,13 @@ public class UiClient implements Gestionable {
         }
     }
 }
+
+//     private void cancelarOperacion() {
+//         System.out.println("🚫 Operación cancelada exitosamente.");
+//         try {
+//             Thread.sleep(2000);
+//         } catch (InterruptedException e) {
+//             e.printStackTrace();
+//         }
+//     }
+// }

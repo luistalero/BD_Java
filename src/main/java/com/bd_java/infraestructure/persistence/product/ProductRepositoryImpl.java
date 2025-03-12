@@ -22,7 +22,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         String sql = "INSERT INTO products (id, name, stock) VALUES (?, ?, ?)";
         try (Connection conexion = connection.getConexion();
             PreparedStatement stmt = conexion.prepareStatement(sql)) {
-            stmt.setString(1, product.getId());
+            stmt.setInt(1, product.getId());
             stmt.setString(2, product.getName());
             stmt.setInt(3, product.getStock());
             stmt.executeUpdate();
@@ -39,7 +39,7 @@ public class ProductRepositoryImpl implements ProductRepository {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return new Product(rs.getString("id"), rs.getString("name"), rs.getInt("stock"));
+                return new Product(rs.getInt("id"), rs.getString("name"), rs.getInt("stock"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -55,7 +55,7 @@ public class ProductRepositoryImpl implements ProductRepository {
             Statement stmt = conexion.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                product.add(new Product(rs.getString("id"), rs.getString("name"), rs.getInt("stock")));
+                product.add(new Product(rs.getInt("id"), rs.getString("name"), rs.getInt("stock")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -70,7 +70,7 @@ public class ProductRepositoryImpl implements ProductRepository {
             PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setString(1, product.getName());
             stmt.setInt(2, product.getStock());
-            stmt.setString(3, product.getId());
+            stmt.setInt(3, product.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -78,11 +78,11 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public void eliminar(String id) {
+    public void eliminar(int id) {
         String sql = "DELETE FROM products WHERE id = ?";
         try (Connection conexion = connection.getConexion();
             PreparedStatement stmt = conexion.prepareStatement(sql)) {
-            stmt.setString(1, id);
+            stmt.setInt(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

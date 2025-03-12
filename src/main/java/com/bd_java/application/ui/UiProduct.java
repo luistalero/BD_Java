@@ -75,12 +75,14 @@ public class UiProduct implements Gestionable {
 
     private void agregarProducto(Scanner sc) {
         System.out.print("Ingrese ID del Producto: ");
-        while (sc.hasNextInt() || sc.hasNextDouble()) {
+        while (!sc.hasNextInt()) {
             System.err.println("Error: El valor Ingresado no es valido.");
             sc.next();
             System.out.print("Ingrese ID del Producto: ");
         }
-        String id = sc.nextLine();
+        int id = sc.nextInt();
+        sc.nextLine();
+
         System.out.print("Ingrese Nombre: ");
         while (sc.hasNextInt() || sc.hasNextDouble()) {
             System.err.println("Error: El valor Ingresado no es valido.");
@@ -103,12 +105,14 @@ public class UiProduct implements Gestionable {
 
     private void actualizarproducto(Scanner sc) {
         System.out.print("Ingrese el ID del producto a modificar: ");
-        while (sc.hasNextInt() || sc.hasNextDouble()) {
+        while (!sc.hasNextInt()) {
             System.err.println("Error: El valor Ingresado no es valido.");
             sc.next();
             System.out.print("Ingrese el ID del producto a modificar: ");
         }
-        String id = sc.nextLine();
+        int id = sc.nextInt();
+        sc.nextLine();
+
         System.out.print("Ingrese el nuevo nombre: ");
         while (sc.hasNextInt() || sc.hasNextDouble()) {
             System.err.println("Error: El valor Ingresado no es valido.");
@@ -116,6 +120,7 @@ public class UiProduct implements Gestionable {
             System.out.print("Ingrese el nuevo nombre: ");
         }
         String name = sc.nextLine();
+
         System.out.print("Ingrese el nuevo stock: ");
         while (!sc.hasNextInt()) {
             System.err.println("Error: El valor Ingresado no es valido.");
@@ -130,12 +135,12 @@ public class UiProduct implements Gestionable {
 
     private void eliminarproducto(Scanner sc) {
         System.out.print("Ingrese el ID del producto a eliminar: ");
-        while (sc.hasNextInt() || sc.hasNextDouble()) {
+        while (!sc.hasNextInt()) {
             System.err.println("Error: El valor Ingresado no es valido.");
             sc.next();
             System.out.print("Ingrese el ID del producto a eliminar: ");
         }
-        String id = sc.nextLine();
+        int id = sc.nextInt();
         ProductUseCase.eliminarproducto(id);
         limpiarConsola();
         System.out.println("✅ producto eliminado exitosamente.");
